@@ -3,28 +3,40 @@
 <script type="text/javascript" src= '/js/pdf-js/build/pdf.js'></script>
 
 <style>
-  #embed-pdf-container {
+  .embed-pdf-container {
     position: relative;
     width: 100%;
     height: auto;
     min-height: 20vh;
-    /* overflow-y:scroll; */
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    margin-bottom: var(--spacing-lg);
   }
   
   .pdf-canvas {
-    border: 1px solid black;
+    border: 1px solid var(--card-separator-color);
     direction: ltr;
     width: 100%;
     height: auto;
     display: none;
+    border-radius: calc(var(--card-border-radius) / 2);
+    background: #fff;
+  }
+  
+  [data-scheme="dark"] .pdf-canvas {
+    background: #1a1a1a;
   }
   
   #the-canvas {
-    border: 1px solid black;
+    border: 1px solid var(--card-separator-color);
     direction: ltr;
     width: 100%;
     height: auto;
     display: none;
+    border-radius: calc(var(--card-border-radius) / 2);
+    background: #fff;
   }
   
   .pdf-loadingWrapper {
@@ -37,38 +49,100 @@
   
   .pdf-loading {
     display: inline-block;
-    width: 50px;
-    height: 50px;
-    border: 3px solid #d2d0d0;;
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--card-separator-color);
     border-radius: 50%;
-    border-top-color: #383838;
+    border-top-color: var(--accent-color);
     animation: spin 1s ease-in-out infinite;
     -webkit-animation: spin 1s ease-in-out infinite;
   }
   
-  #overlayText {
-    word-wrap: break-word;
-    display: grid;
-    justify-content: end;
+  .pdf-overlay {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    z-index: 10;
   }
   
-  #overlayText a {
-    position: relative;
-    top: 10px;
-    right: 4px;
-    color: #000;
-    margin: auto;
-    background-color: #eeeeee;
-    padding: 0.3em 1em;
-    border: solid 2px;
-    border-radius: 12px;
-    border-color: #00000030;
+  .pdf-overlay a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color-text);
+    background-color: var(--accent-color);
+    padding: 8px 12px;
+    border-radius: var(--tag-border-radius);
     text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: var(--shadow-l1);
   }
   
-  #overlayText svg {
-    height: clamp(1em, 2vw, 1.4em);
-    width:  clamp(1em, 2vw, 1.4em);
+  .pdf-overlay a:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  
+  .pdf-overlay svg {
+    height: 16px;
+    width: 16px;
+  }
+  
+  .pdf-paginator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: var(--card-padding);
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+  }
+  
+  .pdf-paginator button {
+    background: var(--accent-color);
+    color: var(--accent-color-text);
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--tag-border-radius);
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 500;
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-l1);
+    min-width: 80px;
+  }
+  
+  .pdf-paginator button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-l2);
+  }
+  
+  .pdf-paginator button:active {
+    transform: translateY(0);
+  }
+  
+  .pdf-pagenum,
+  .pdf-pagecount {
+    color: var(--card-text-color-secondary);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .pdf-source {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1.4rem;
+    padding: 6px 12px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: var(--tag-border-radius);
+    transition: all 0.2s ease;
+  }
+  
+  .pdf-source:hover {
+    background: rgba(var(--link-background-color), var(--link-background-opacity));
+    border-color: var(--accent-color);
   }
   
   @keyframes spin {
@@ -85,7 +159,7 @@
     <div class="pdf-loadingWrapper" id="pdf-loadingWrapper-{{ substr (.Get "url" | md5) 0 8 }}">
         <div class="pdf-loading" id="pdf-loading-{{ substr (.Get "url" | md5) 0 8 }}"></div>
     </div>
-    <div id="overlayText">
+    <div class="pdf-overlay">
       <a href="{{ .Get "url" }}" aria-label="Download" download>
         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
             <path d="M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z" />
@@ -97,11 +171,11 @@
 
 <div class="pdf-paginator" id="pdf-paginator-{{ substr (.Get "url" | md5) 0 8 }}">
     <button id="pdf-prev-{{ substr (.Get "url" | md5) 0 8 }}">Previous</button>
-    <button id="pdf-next-{{ substr (.Get "url" | md5) 0 8 }}">Next</button> &nbsp; &nbsp;
+    <button id="pdf-next-{{ substr (.Get "url" | md5) 0 8 }}">Next</button>
     <span>
       <span class="pdf-pagenum" id="pdf-pagenum-{{ substr (.Get "url" | md5) 0 8 }}"></span> / <span class="pdf-pagecount" id="pdf-pagecount-{{ substr (.Get "url" | md5) 0 8 }}"></span>
     </span>
-    <a class="pdf-source" id="pdf-source-{{ substr (.Get "url" | md5) 0 8 }}" href="{{ .Get "url" }}">[pdf]</a>
+    <a class="pdf-source" id="pdf-source-{{ substr (.Get "url" | md5) 0 8 }}" href="{{ .Get "url" }}">PDF</a>
 </div>
 
 <noscript>
