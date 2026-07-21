@@ -17,16 +17,10 @@
     <loc>http://localhost:1313/tags/css/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/documentation/</loc>
-    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/html/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/markdown/</loc>
-    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/post/markdown_editing/</loc>
+    <loc>http://localhost:1313/tags/hugo/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/post/</loc>
@@ -35,7 +29,10 @@
     <loc>http://localhost:1313/tags/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/themes/</loc>
+    <loc>http://localhost:1313/post/markdown_editing/</loc>
+    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/%E6%97%A5%E5%B8%B8%E5%90%91/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/page/archives/</loc>
