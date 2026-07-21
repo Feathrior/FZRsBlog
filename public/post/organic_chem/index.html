@@ -286,7 +286,6 @@
     display: none;
   }
   
-  
   .pdf-loadingWrapper {
     display: none;
     justify-content: center;
@@ -305,10 +304,6 @@
     animation: spin 1s ease-in-out infinite;
     -webkit-animation: spin 1s ease-in-out infinite;
   }
-  
-  
-  
-  
   
   #overlayText {
     word-wrap: break-word;
@@ -334,8 +329,6 @@
     height: clamp(1em, 2vw, 1.4em);
     width:  clamp(1em, 2vw, 1.4em);
   }
-  
-  
   
   @keyframes spin {
     to { -webkit-transform: rotate(360deg); }
@@ -372,20 +365,16 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-0247d8d0" href="
 
 <script type="text/javascript">
     (function(){
-    var url = '有机化学全反应总结.pdf';
+    var url = encodeURI('有机化学全反应总结.pdf');
 
     var hidePaginator = "" === "true";
     var hideLoader = "" === "true";
     var selectedPageNum = parseInt("") || 1;
 
-    
     var pdfjsLib = window['pdfjs-dist/build/pdf'];
 
-    
-    if (pdfjsLib.GlobalWorkerOptions.workerSrc == '')
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "http:\/\/localhost:1313\/" + 'js/pdf-js/build/pdf.worker.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf-js/build/pdf.worker.js';
 
-    
     var pdfDoc = null,
         pageNum = selectedPageNum,
         pageRendering = false,
@@ -396,53 +385,40 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-0247d8d0" href="
         paginator = document.getElementById("pdf-paginator-0247d8d0"),
         loadingWrapper = document.getElementById('pdf-loadingWrapper-0247d8d0');
 
-
-    
     showPaginator();
     showLoader();
 
-    
-
     function renderPage(num) {
       pageRendering = true;
-      
       pdfDoc.getPage(num).then(function(page) {
         var viewport = page.getViewport({scale: scale});
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
-        
         var renderContext = {
           canvasContext: ctx,
           viewport: viewport
         };
         var renderTask = page.render(renderContext);
 
-        
         renderTask.promise.then(function() {
           pageRendering = false;
           showContent();
 
           if (pageNumPending !== null) {
-            
             renderPage(pageNumPending);
             pageNumPending = null;
           }
         });
       });
 
-      
       document.getElementById('pdf-pagenum-0247d8d0').textContent = num;
     }
-
-    
 
     function showContent() {
       loadingWrapper.style.display = 'none';
       canvas.style.display = 'block';
     }
-
-    
 
     function showLoader() {
       if(hideLoader) return
@@ -450,14 +426,10 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-0247d8d0" href="
       canvas.style.display = 'none';
     }
 
-    
-
     function showPaginator() {
       if(hidePaginator) return
       paginator.style.display = 'block';
     }
-
-    
 
     function queueRenderPage(num) {
       if (pageRendering) {
@@ -466,8 +438,6 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-0247d8d0" href="
         renderPage(num);
       }
     }
-
-    
 
     function onPrevPage() {
       if (pageNum <= 1) {
@@ -478,8 +448,6 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-0247d8d0" href="
     }
     document.getElementById('pdf-prev-0247d8d0').addEventListener('click', onPrevPage);
 
-    
-
     function onNextPage() {
       if (pageNum >= pdfDoc.numPages) {
         return;
@@ -489,24 +457,19 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-0247d8d0" href="
     }
     document.getElementById('pdf-next-0247d8d0').addEventListener('click', onNextPage);
 
-    
-
     pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
       pdfDoc = pdfDoc_;
       var numPages = pdfDoc.numPages;
       document.getElementById('pdf-pagecount-0247d8d0').textContent = numPages;
 
-      
       if(pageNum > numPages) {
         pageNum = numPages
       }
 
-      
       renderPage(pageNum);
     });
     })();
-</script>
-</p>
+</script></p>
 
 </section>
 

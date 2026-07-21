@@ -9,4 +9,4 @@ categories:
 ---
 
 笔者整理有机化学手写笔记如下。建议下载后观看。
-{{< embed-pdf url="有机化学全反应总结.pdf" >}}
+{{< embed-pdf url="summary.pdf" >}}

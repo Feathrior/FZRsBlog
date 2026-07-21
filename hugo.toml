@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://fzrs-blog.vercel.app/'
 locale = 'en-us'
 title = 'FZR的博客'
 theme = 'hugo-theme-stack'
